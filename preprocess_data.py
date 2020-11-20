@@ -2,6 +2,7 @@ import os
 import numpy as np
 import spacy 
 import string
+from spacy.lang.en.stop_words import STOP_WORDS
 
 
 #following steps for preprocessing the data:
@@ -40,15 +41,17 @@ else:
 
         #lemmatize
         for token1,token2 in zip(sentence1,sentence2):
-            token_list1.append(token1.lemma_)
-            token_list2.append(token2.lemma_)
+            #remove stop words
+            if token1.is_stop == False:
+                token_list1.append(token1.lemma_)
+            if token2.is_stop == False:
+                token_list2.append(token2.lemma_)
         sentence1_tokens.append(token_list1)
         sentence2_tokens.append(token_list2)
 
     processed_data = np.array([unprocessed_train_data[:,0],unprocessed_train_data[:,1],unprocessed_train_data[:,2],sentence1_tokens,sentence2_tokens])
     processed_data = processed_data.transpose()
-    #sz = 0
-    #for tokens in processed_data[4,:]:
-    #    for token in tokens:
-    #        print(token)
-    #    sz += len(tokens)
+
+#for tokens in processed_data[1:,3]:
+#    for token in tokens:
+#        print(token)
